@@ -1,0 +1,33 @@
+# VERCELIX — Netlify configuration
+# Docs: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Static site — nothing to build. Netlify auto-detects this, but being explicit avoids surprises.
+  publish = "."
+
+# ---- Security & performance headers (applied to every page) ----
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+# ---- Cache static assets aggressively ----
+[[headers]]
+  for = "/styles.css"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+[[headers]]
+  for = "/main.js"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ---- PRO FEATURE: A/B split testing example ----
+# Uncomment to send 50% of traffic to a "variant" branch you create in Git.
+# Manage it visually instead at: Site settings → Split testing
+# [[redirects]]
+#   from = "/*"
+#   to = "/index.html"
+#   status = 200
